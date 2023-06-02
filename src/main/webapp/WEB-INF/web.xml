@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <display-name>RobotWS</display-name>
+    <!-- CXF Servlet configuration -->
+    <!-- Configure the JAX-WS runtime -->
+    <servlet>
+        <servlet-name>JAX-WS Servlet</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <init-param>
+            <param-name>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</param-name>
+            <param-value>TRUE</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>JAX-WS Servlet</servlet-name>
+        <url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Configure the FileTransferService endpoint -->
+    <servlet>
+        <servlet-name>FileTransferService</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FileTransferService</servlet-name>
+        <url-pattern>/file-transfer-service</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- Configure SOAP port monitoring for Tomcat -->
+
+
+    <!-- Expose JMX beans for CXF endpoint management -->
+
+    <!--
+      <listener>
+        <listener-class>org.apache.catalina.mbeans.MBeanFactory</listener-class>
+    </listener>
+
+    <Valve className="org.apache.catalina.valves.JMXRemoteLifecycleListener" rmiRegistryPortPlatform="${jmx.rmi.registry.port}"
+           rmiServerPortPlatform="${jmx.rmi.server.port}" createRegistryPlatform="true" />
+
+    <listener>
+        <listener-class>org.apache.cxf.management.InstrumentationManager</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>org.apache.cxf.management.service.counter.name</param-name>
+        <param-value>FileTransferService</param-value>
+    </context-param>
+     -->
+
+
+</web-app>

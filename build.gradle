@@ -1,0 +1,88 @@
+
+plugins {
+    id 'java'
+    id 'war'
+    //id 'io.mateo.cxf-codegen' version '1.2.1'
+}
+
+group 'coffee.lkh'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url "https://clojars.org/repo/"
+    }
+}
+
+
+
+ext {
+    junitVersion = '5.9.2'
+}
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    implementation 'org.jetbrains:annotations:24.0.0'
+    //Concurrency and DI injection dependencies
+    compileOnly('jakarta.enterprise:jakarta.enterprise.cdi-api:3.0.0')
+    compileOnly('jakarta.enterprise.concurrent:jakarta.enterprise.concurrent-api:2.0.0')
+    compileOnly('jakarta.ejb:jakarta.ejb-api:4.0.0')
+    //Json dependencies
+    compileOnly('jakarta.json.bind:jakarta.json.bind-api:2.0.0')
+    compileOnly('jakarta.json:jakarta.json-api:2.0.1')
+    //Servlet dependencies
+    compileOnly('jakarta.security.enterprise:jakarta.security.enterprise-api:2.0.0')
+    compileOnly('jakarta.servlet:jakarta.servlet-api:5.0.0')
+    compileOnly('jakarta.transaction:jakarta.transaction-api:2.0.0')
+    //JAX-WS dependencies
+    compileOnly('jakarta.jms:jakarta.jms-api:3.0.0')
+    compileOnly('jakarta.xml.ws:jakarta.xml.ws-api:3.0.1')
+    implementation("jakarta.jws:jakarta.jws-api:3.0.0")
+    implementation('org.glassfish.jaxb:jaxb-runtime:3.0.2')
+    //Jakarta and Sun XML Implementations
+    compileOnly("jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.1")
+    implementation("jakarta.activation:jakarta.activation-api:2.1.2")
+    implementation("jakarta.xml.bind:jakarta.xml.bind-api:4.0.0")
+    implementation("jakarta.xml.ws:jakarta.xml.ws-api:4.0.0")
+    implementation("jakarta.xml.soap:jakarta.xml.soap-api:3.0.0")
+    implementation("com.sun.xml.bind:jaxb-core:4.0.1")
+    implementation("com.sun.xml.bind:jaxb-impl:4.0.1")
+
+    implementation("com.sun.xml.ws:jaxws-ri:4.0.1") {
+        exclude group: 'org.glassfish.metro', module: 'policy'
+    }
+    implementation("org.glassfish.metro:webservices-rt:4.0.2") {
+        exclude group: 'org.glassfish.metro', module: 'policy'
+    }
+    implementation("org.glassfish.jaxb:jaxb-runtime:4.0.1")
+    //implementation("com.sun.xml.ws:rt:4.0.1")
+    implementation("com.sun.xml.messaging.saaj:saaj-impl:3.0.2")
+    //implementation("com.sun.xml.ws:jaxws-rt:4.0.1")
+    //Hibernate dependencies
+    implementation('org.hibernate:hibernate-core:6.0.2.Final')
+    implementation('org.hibernate.validator:hibernate-validator:7.0.5.Final')
+
+    //Apache Tomcat dependencies
+    compileOnly("org.apache.tomcat:tomcat-catalina:11.0.0-M5")
+
+    //Capture file reader dependencies
+    implementation("jnetpcap:jnetpcap:1.5.r1457-1i")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+

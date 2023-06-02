@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
+           version="2.0">
+
+    <!-- Configure the FileTransferService endpoint -->
+    <endpoint
+            name="FileTransferServicePort"
+            implementation="coffee.lkh.robotws.webservices.implemantations.FileTransferService"
+            url-pattern="/services/file-transfer-service"
+            binding="http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/"/>
+
+</endpoints>
