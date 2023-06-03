@@ -8,6 +8,8 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "dofus_character_class")
 public enum DofusCharacterClass {
+    @XmlElement(name = "undefined")
+    UNDEFINED,
     @XmlElement(name = "ecaflip")
     ECAFLIP,
     @XmlElement(name = "eniripsa")

@@ -14,6 +14,10 @@ import java.util.Optional;
 @XmlRootElement(name = "dofus_account")
 public record DofusAccountDto(@NotNull String email, @NotNull String hashed_passwd, Optional<List<Optional<DofusCharacterDto>>> characters) {
 
+    public DofusAccountDto() {
+        this("", "", Optional.empty());
+    }
+
     @XmlElement(name = "dofus_account_email")
     @Override
     public @NotNull String email() {

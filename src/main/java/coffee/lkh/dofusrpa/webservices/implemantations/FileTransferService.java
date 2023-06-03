@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
 
 
-@WebService(endpointInterface = "coffee.lkh.dofusrpa.webservices.implemantations.FileTransferService",
+@WebService(endpointInterface = "coffee.lkh.dofusrpa.webservices.IFileTransferService",
         serviceName = "FileTransferService")
 public class FileTransferService implements IFileTransferService {
 

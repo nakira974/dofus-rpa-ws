@@ -2,3 +2,8 @@
 GET {{baseUri}}/FileTransferService
 Accept: text/xml
 
+
+### Get service DofusAccountService WSDL
+GET {{baseUri}}/DofusAccountService
+Accept: text/xml
+
