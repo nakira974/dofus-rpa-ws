@@ -1,0 +1,4 @@
+### Get service FileTransferService WSDL
+GET {{baseUri}}/FileTransferService
+Accept: text/xml
+

@@ -5,8 +5,8 @@
     <!-- Configure the FileTransferService endpoint -->
     <endpoint
             name="FileTransferServicePort"
-            implementation="coffee.lkh.robotws.webservices.implemantations.FileTransferService"
-            url-pattern="/services/file-transfer-service"
+            implementation="coffee.lkh.dofusrpa.webservices.implemantations.FileTransferService"
+            url-pattern="/services/FileTransferService"
             binding="http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/"/>
 
 </endpoints>

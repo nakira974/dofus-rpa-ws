@@ -76,6 +76,10 @@ dependencies {
     //Capture file reader dependencies
     implementation("jnetpcap:jnetpcap:1.5.r1457-1i")
 
+    //JPA Implementations
+    implementation("org.hibernate:hibernate-core-jakarta:5.6.15.Final")
+    implementation("org.postgresql:postgresql:42.6.0")
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }

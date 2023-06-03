@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Dofus-WS.main:Web">
+    <output-path>$PROJECT_DIR$/out/artifacts/Dofus_WS_main_Web</output-path>
+    <root id="archive" name="Dofus-WS.main_Web.war">
+      <element id="artifact" artifact-name="Dofus-WS.main:Web exploded" />
+    </root>
+  </artifact>
+</component>
