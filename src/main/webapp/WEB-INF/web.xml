@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-    <display-name>RobotWS</display-name>
+    <display-name>DofusWS</display-name>
     <!-- CXF Servlet configuration -->
     <!-- Configure the JAX-WS runtime -->
     <servlet>
@@ -20,6 +20,13 @@
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
 
+    <resource-env-ref>
+        <description>WebService Context</description>
+        <resource-env-ref-name>wsContext</resource-env-ref-name>
+        <resource-env-ref-type>jakarta.xml.ws.WebServiceContext</resource-env-ref-type>
+        <lookup-name>java:comp/env/jakarta.xml.ws.WebServiceContext</lookup-name>
+    </resource-env-ref>
+
     <!-- Configure the FileTransferService endpoint -->
     <servlet>
         <servlet-name>FileTransferService</servlet-name>
@@ -28,7 +35,7 @@
 
     <servlet-mapping>
         <servlet-name>FileTransferService</servlet-name>
-        <url-pattern>/file-transfer-service</url-pattern>
+        <url-pattern>/FileTransferService</url-pattern>
     </servlet-mapping>
 
 

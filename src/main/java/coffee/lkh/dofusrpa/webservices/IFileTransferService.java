@@ -1,4 +1,4 @@
-package coffee.lkh.robotws.webservices;
+package coffee.lkh.dofusrpa.webservices;
 
 import jakarta.jws.WebService;
 import jakarta.xml.soap.SOAPException;

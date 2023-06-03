@@ -1,7 +1,7 @@
-package coffee.lkh.robotws.webservices.implemantations;
+package coffee.lkh.dofusrpa.webservices.implemantations;
 
-import coffee.lkh.robotws.models.datasource.InputStreamDataSource;
-import coffee.lkh.robotws.webservices.IFileTransferService;
+import coffee.lkh.dofusrpa.models.datasource.InputStreamDataSource;
+import coffee.lkh.dofusrpa.webservices.IFileTransferService;
 import jakarta.activation.DataHandler;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
 
 
-@WebService(endpointInterface = "coffee.lkh.robotws.webservices.implemantations.FileTransferService",
+@WebService(endpointInterface = "coffee.lkh.dofusrpa.webservices.IFileTransferService",
         serviceName = "FileTransferService")
 public class FileTransferService implements IFileTransferService {
 
