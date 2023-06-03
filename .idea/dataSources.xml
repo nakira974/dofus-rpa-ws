@@ -4,6 +4,7 @@
     <data-source source="LOCAL" name="ankama@localhost" uuid="e27ab43a-5091-48f8-a167-795c9d0f56b4">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/ankama</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
