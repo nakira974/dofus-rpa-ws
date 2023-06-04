@@ -1,5 +1,6 @@
 package coffee.lkh.dofusrpa.models.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,13 +8,13 @@ public class DofusAccountDto {
 
     private String email;
     private String hashed_passwd;
-    private Optional<List<Optional<DofusCharacterDto>>> characters;
+    private List<DofusCharacterDto> characters;
 
     public DofusAccountDto() {
-        this("", "", Optional.empty());
+        this("", "", new ArrayList<>());
     }
 
-    public DofusAccountDto(String email, String hashed_passwd, Optional<List<Optional<DofusCharacterDto>>> characters) {
+    public DofusAccountDto(String email, String hashed_passwd, List<DofusCharacterDto> characters) {
         this.email = email;
         this.hashed_passwd = hashed_passwd;
         this.characters = characters;
@@ -35,11 +36,11 @@ public class DofusAccountDto {
         this.hashed_passwd = hashed_passwd;
     }
 
-    public Optional<List<Optional<DofusCharacterDto>>> getCharacters() {
+    public List<DofusCharacterDto> getCharacters() {
         return characters;
     }
 
-    public void setCharacters(Optional<List<Optional<DofusCharacterDto>>> characters) {
+    public void setCharacters(List<DofusCharacterDto> characters) {
         this.characters = characters;
     }
 }

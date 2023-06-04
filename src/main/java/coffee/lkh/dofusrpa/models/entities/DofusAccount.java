@@ -30,10 +30,10 @@ public record DofusAccount(
     }
 
     public @NotNull DofusAccountDto toDto() {
-        Optional<List<Optional<DofusCharacterDto>>> charactersDto = Optional.of(new ArrayList<>());
+        List<DofusCharacterDto> charactersDto = new ArrayList<>();
         if(characters().isPresent())
             characters().get().forEach(x->{
-                x.ifPresent(dofusCharacter -> charactersDto.get().add(Optional.of(dofusCharacter.toDto())));
+                x.ifPresent(dofusCharacter -> charactersDto.add(dofusCharacter.toDto()));
         });
         return new DofusAccountDto(email(), password(), charactersDto);
     }
