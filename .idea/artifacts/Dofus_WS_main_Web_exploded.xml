@@ -5,10 +5,8 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="Dofus-WS.main" />
-          <element id="jpa-descriptors" facet="Dofus-WS.main/jpa/JPA" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Gradle: org.hibernate:hibernate-core-jakarta:5.6.15.Final" />
           <element id="library" level="project" name="Gradle: jakarta.transaction:jakarta.transaction-api:2.0.0" />
           <element id="library" level="project" name="Gradle: jakarta.xml.ws:jakarta.xml.ws-api:4.0.0" />
           <element id="library" level="project" name="Gradle: org.jetbrains:annotations:24.0.0" />
@@ -25,13 +23,9 @@
           <element id="library" level="project" name="Gradle: jnetpcap:jnetpcap:1.5.r1457-1i" />
           <element id="library" level="project" name="Gradle: org.postgresql:postgresql:42.6.0" />
           <element id="library" level="project" name="Gradle: jakarta.annotation:jakarta.annotation-api:2.1.1" />
-          <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.4.3.Final" />
           <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.5.1" />
           <element id="library" level="project" name="Gradle: jakarta.persistence:jakarta.persistence-api:3.0.0" />
-          <element id="library" level="project" name="Gradle: net.bytebuddy:byte-buddy:1.12.18" />
-          <element id="library" level="project" name="Gradle: antlr:antlr:2.7.7" />
           <element id="library" level="project" name="Gradle: org.jboss:jandex:2.4.2.Final" />
-          <element id="library" level="project" name="Gradle: org.dom4j:dom4j:2.1.3" />
           <element id="library" level="project" name="Gradle: org.hibernate.orm:hibernate-core:6.0.2.Final" />
           <element id="library" level="project" name="Gradle: com.sun.xml.ws:jaxws-tools:4.0.1" />
           <element id="library" level="project" name="Gradle: com.sun.xml.ws:jaxws-eclipselink-plugin:4.0.1" />
@@ -65,9 +59,30 @@
           <element id="library" level="project" name="Gradle: com.fasterxml.woodstox:woodstox-core:6.5.0" />
           <element id="library" level="project" name="Gradle: org.codehaus.woodstox:stax2-api:4.2.1" />
           <element id="library" level="project" name="Gradle: org.checkerframework:checker-qual:3.31.0" />
-          <element id="library" level="project" name="Gradle: jakarta.inject:jakarta.inject-api:2.0.0" />
           <element id="library" level="project" name="Gradle: org.antlr:antlr4-runtime:4.10" />
           <element id="library" level="project" name="Gradle: org.eclipse.angus:angus-mail:2.0.1" />
+          <element id="library" level="project" name="Gradle: org.jboss.weld.servlet:weld-servlet-core:5.1.0.Final" />
+          <element id="library" level="project" name="Gradle: jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.1" />
+          <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-jni:11.0.0-M6" />
+          <element id="library" level="project" name="Gradle: jakarta.inject:jakarta.inject-api:2.0.1" />
+          <element id="library" level="project" name="Gradle: com.zaxxer:HikariCP:5.0.1" />
+          <element id="library" level="project" name="Gradle: org.jboss.weld:weld-lite-extension-translator:5.1.0.Final" />
+          <element id="library" level="project" name="Gradle: org.jboss.weld.module:weld-jsf:5.1.0.Final" />
+          <element id="library" level="project" name="Gradle: org.jboss.weld.module:weld-web:5.1.0.Final" />
+          <element id="library" level="project" name="Gradle: org.jboss.weld.environment:weld-environment-common:5.1.0.Final" />
+          <element id="library" level="project" name="Gradle: org.jboss.weld:weld-spi:5.0.SP3" />
+          <element id="library" level="project" name="Gradle: jakarta.el:jakarta.el-api:5.0.1" />
+          <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.5.0.Final" />
+          <element id="library" level="project" name="Gradle: org.jboss.classfilewriter:jboss-classfilewriter:1.2.5.Final" />
+          <element id="library" level="project" name="Gradle: jakarta.enterprise:jakarta.enterprise.lang-model:4.0.1" />
+          <element id="library" level="project" name="Gradle: jakarta.interceptor:jakarta.interceptor-api:2.1.0" />
+          <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.30" />
+          <element id="library" level="project" name="Gradle: org.jboss.weld:weld-core-impl:5.1.0.Final" />
+          <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging-processor:2.2.1.Final" />
+          <element id="library" level="project" name="Gradle: org.jboss.weld:weld-api:5.0.SP3" />
+          <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging-annotations:2.2.1.Final" />
+          <element id="library" level="project" name="Gradle: org.jboss.jdeparser:jdeparser:2.0.3.Final" />
+          <element id="library" level="project" name="Gradle: net.bytebuddy:byte-buddy:1.12.9" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="Dofus-WS.main/web/Web Gradle : Dofus-WS-1.0-SNAPSHOT.war" />

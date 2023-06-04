@@ -41,3 +41,6 @@ bin/
 ### Mac OS ###
 .DS_Store
 /http-client.private.env.json
+/src/main/resources/META-INF/application.properties
+/src/main/resources/application.properties
+/src/main/resources/dofus.database.properties

@@ -1,23 +1,40 @@
 package coffee.lkh.dofusrpa.models.dto;
 
 import coffee.lkh.dofusrpa.models.DofusCharacterClass;
-import coffee.lkh.dofusrpa.webservices.implemantations.DofusAccountService;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public record DofusCharacterDto(@NotNull String name, @NotNull DofusCharacterClass character_class) {
+public class DofusCharacterDto {
+
+    private String name;
+    private DofusCharacterClass character_class;
 
     public DofusCharacterDto(){
         this("", DofusCharacterClass.UNDEFINED);
     }
-    @Override
-    public @NotNull String name() {
+
+    public DofusCharacterDto(String name, DofusCharacterClass character_class) {
+        this.name = name;
+        this.character_class = character_class;
+    }
+
+    @NotNull
+    public String getName() {
         return name;
     }
 
-    @Override
-    public @NotNull DofusCharacterClass character_class() {
+    public void setName(@NotNull String name) {
+        this.name = name;
+    }
+
+    @NotNull
+    public DofusCharacterClass getCharacter_class() {
         return character_class;
+    }
+
+    public void setCharacter_class(@NotNull DofusCharacterClass character_class) {
+        this.character_class = character_class;
     }
 }
