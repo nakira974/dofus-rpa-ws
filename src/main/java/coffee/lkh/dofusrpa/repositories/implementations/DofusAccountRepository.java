@@ -20,77 +20,83 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 @Singleton
 public class DofusAccountRepository implements IDofusAccountRepository {
     private final HikariDataSource dataSource;
+    private final ExecutorService threadPoolExecutor;
 
     public DofusAccountRepository() {
+        threadPoolExecutor = Executors.newCachedThreadPool();
         dataSource = DatabaseUtil.getDataSource();
     }
 
     /**Fetch all {@link DofusAccount} objects along with their associated characters from the materialized view `user_characters`,*/
-    public List<DofusAccount> getAll() {
+    public Future<List<DofusAccount>> getAll() {
+        final CompletableFuture<List<DofusAccount>> future = new CompletableFuture<>();
         final ThreadLocal<Connection> connectionHolder = new ThreadLocal<>();
-        final List<DofusAccount> accounts = new ArrayList<>();
-        try {
-            // Get connection from thread-local variable or create a new one if not present
-            Connection connection = connectionHolder.get();
-            if (connection == null) {
-                connection = dataSource.getConnection();
-                connectionHolder.set(connection);
-            }
 
-            final String sql = "SELECT DISTINCT email FROM accounts";
-            try (final PreparedStatement statement = connection.prepareStatement(sql)) {
-                try (final ResultSet resultSet = statement.executeQuery()) {
-                    while (resultSet.next()) {
-                        final Long id = -1L; // not used in materialized view query
-                        final String email = resultSet.getString("email");
-                        final String password = resultSet.getString("password");
-                        final List<Optional<DofusCharacter>> characters = new ArrayList<>();
+        threadPoolExecutor.submit(() -> {
+            final List<DofusAccount> accounts = new ArrayList<>();
+            try {
+                // Get connection from thread-local variable or create a new one if not present
+                Connection connection = connectionHolder.get();
+                if (connection == null) {
+                    connection = dataSource.getConnection();
+                    connectionHolder.set(connection);
+                }
 
-                        // Get characters for user from materialized view
-                        final String characterSql = "SELECT name, class FROM user_characters WHERE email = ?";
-                        try (final PreparedStatement characterStatement = connection.prepareStatement(characterSql)) {
-                            characterStatement.setString(1, email);
-                            try (final ResultSet characterResultSet = characterStatement.executeQuery()) {
-                                while (characterResultSet.next()) {
-                                    final String name = characterResultSet.getString("name");
-                                    final DofusCharacterClass characterClass = DofusCharacterClass.valueOf(characterResultSet.getString("class"));
-                                    final DofusCharacter character = new DofusCharacter(null, name, characterClass);
-                                    characters.add(Optional.of(character));
+                final String sql = "SELECT DISTINCT email FROM accounts";
+                try (final PreparedStatement statement = connection.prepareStatement(sql)) {
+                    try (final ResultSet resultSet = statement.executeQuery()) {
+                        while (resultSet.next()) {
+                            final Long id = -1L; // not used in materialized view query
+                            final String email = resultSet.getString("email");
+                            final String password = resultSet.getString("password");
+                            final List<Optional<DofusCharacter>> characters = new ArrayList<>();
+
+                            // Get characters for user from materialized view
+                            final String characterSql = "SELECT name, class FROM user_characters WHERE email = ?";
+                            try (final PreparedStatement characterStatement = connection.prepareStatement(characterSql)) {
+                                characterStatement.setString(1, email);
+                                try (final ResultSet characterResultSet = characterStatement.executeQuery()) {
+                                    while (characterResultSet.next()) {
+                                        final String name = characterResultSet.getString("name");
+                                        final DofusCharacterClass characterClass = DofusCharacterClass.valueOf(characterResultSet.getString("class"));
+                                        final DofusCharacter character = new DofusCharacter(null, name, characterClass);
+                                        characters.add(Optional.of(character));
+                                    }
                                 }
                             }
-                        }
 
-                        final DofusAccount account = new DofusAccount(id, email, password, Optional.of(characters));
-                        accounts.add(account);
+                            final DofusAccount account = new DofusAccount(id, email, password, Optional.of(characters));
+                            accounts.add(account);
+                        }
                     }
                 }
-            }
-            System.out.printf("\u001B[35m ALL ACCOUNTS AND THEIR CHARACTERS HAS BEEN SELECTED \u001B[0m%n" );
-        } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
-        } finally {
-            // Close connection and remove from thread-local variable
-            final Connection connection = connectionHolder.get();
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    System.err.println(ex.getMessage());
-                } finally {
-                    connectionHolder.remove();
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+            } finally {
+                // Close connection and remove from thread-local variable
+                final Connection connection = connectionHolder.get();
+                if (connection != null) {
+                    try {
+                        connection.close();
+                    } catch (SQLException ex) {
+                        System.err.println(ex.getMessage());
+                    } finally {
+                        connectionHolder.remove();
+                    }
                 }
-            }
-        }
 
-        return accounts;
+                future.complete(accounts);
+            }
+        });
+
+        threadPoolExecutor.shutdown();
+
+        return future;
     }
 
     public DofusAccount getById(Long id) {

@@ -68,8 +68,7 @@ public class DofusAccountService implements IDofusAccountService {
                 throw new SOAPException("Database context is null!");
             }
 
-            Future<List<DofusAccount>> accountss =  threadPoolExecutor.submit(() -> dofusAccountRepository.getAll());
-            result = accountss.get(10, TimeUnit.SECONDS).stream().map(DofusAccount::toDto).toList();
+            result = dofusAccountRepository.getAll().get(10, TimeUnit.SECONDS).stream().map(DofusAccount::toDto).toList();
             return result;
 
         }catch (Exception ex){
