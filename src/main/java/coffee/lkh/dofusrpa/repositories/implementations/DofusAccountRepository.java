@@ -18,7 +18,12 @@ import jdk.jfr.Name;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @Singleton
 public class DofusAccountRepository implements IDofusAccountRepository {
@@ -30,36 +35,59 @@ public class DofusAccountRepository implements IDofusAccountRepository {
 
     /**Fetch all {@link DofusAccount} objects along with their associated characters from the materialized view `user_characters`,*/
     public List<DofusAccount> getAll() {
+        final ThreadLocal<Connection> connectionHolder = new ThreadLocal<>();
         final List<DofusAccount> accounts = new ArrayList<>();
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement("SELECT email, password, name, class FROM user_characters");
-             ResultSet rs = stmt.executeQuery()) {
-
-            // Map of account ids to DofusAccount objects
-            Map<Long, DofusAccount> accountMap = new HashMap<>();
-
-            // Iterate over the result set and create DofusAccount and DofusCharacter objects
-            while (rs.next()) {
-                String email = rs.getString("email");
-                String password = rs.getString("password");
-                String name = rs.getString("name");
-                String characterClass = rs.getString("class");
-
-                // Create a DofusAccount object if it doesn't exist yet
-                DofusAccount account = accountMap.computeIfAbsent(rs.getLong("account_id"), id -> {
-                    DofusAccount newAccount = new DofusAccount(id, email, password, Optional.of(new ArrayList<>()));
-                    accounts.add(newAccount);
-                    return newAccount;
-                });
-
-                // Add the character to the account's list of characters
-                DofusCharacter character = new DofusCharacter(null, name, DofusCharacterClass.valueOf(characterClass));
-                account.characters().orElseThrow().add(Optional.of(character));
+        try {
+            // Get connection from thread-local variable or create a new one if not present
+            Connection connection = connectionHolder.get();
+            if (connection == null) {
+                connection = dataSource.getConnection();
+                connectionHolder.set(connection);
             }
 
-            System.out.println("\u001B[35m ACCOUNTS AND THEIR CHARACTERS HAVE BEEN SELECTED \u001B[0m");
-        } catch (Exception ex) {
+            final String sql = "SELECT DISTINCT email FROM accounts";
+            try (final PreparedStatement statement = connection.prepareStatement(sql)) {
+                try (final ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        final Long id = -1L; // not used in materialized view query
+                        final String email = resultSet.getString("email");
+                        final String password = resultSet.getString("password");
+                        final List<Optional<DofusCharacter>> characters = new ArrayList<>();
+
+                        // Get characters for user from materialized view
+                        final String characterSql = "SELECT name, class FROM user_characters WHERE email = ?";
+                        try (final PreparedStatement characterStatement = connection.prepareStatement(characterSql)) {
+                            characterStatement.setString(1, email);
+                            try (final ResultSet characterResultSet = characterStatement.executeQuery()) {
+                                while (characterResultSet.next()) {
+                                    final String name = characterResultSet.getString("name");
+                                    final DofusCharacterClass characterClass = DofusCharacterClass.valueOf(characterResultSet.getString("class"));
+                                    final DofusCharacter character = new DofusCharacter(null, name, characterClass);
+                                    characters.add(Optional.of(character));
+                                }
+                            }
+                        }
+
+                        final DofusAccount account = new DofusAccount(id, email, password, Optional.of(characters));
+                        accounts.add(account);
+                    }
+                }
+            }
+            System.out.printf("\u001B[35m ALL ACCOUNTS AND THEIR CHARACTERS HAS BEEN SELECTED \u001B[0m%n" );
+        } catch (SQLException ex) {
             System.err.println(ex.getMessage());
+        } finally {
+            // Close connection and remove from thread-local variable
+            final Connection connection = connectionHolder.get();
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    System.err.println(ex.getMessage());
+                } finally {
+                    connectionHolder.remove();
+                }
+            }
         }
 
         return accounts;

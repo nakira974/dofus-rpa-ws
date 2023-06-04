@@ -4,6 +4,7 @@ import coffee.lkh.dofusrpa.models.entities.DofusAccount;
 import jakarta.ejb.Local;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 @Local
 public interface IDofusAccountRepository {

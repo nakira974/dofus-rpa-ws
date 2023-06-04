@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
 
 @WebService(endpointInterface = "coffee.lkh.dofusrpa.webservices.IDofusAccountService",
         serviceName = "DofusAccountService")
@@ -22,6 +23,12 @@ public class DofusAccountService implements IDofusAccountService {
 
     @Inject
     private IDofusAccountRepository dofusAccountRepository;
+
+    private final ThreadPoolExecutor threadPoolExecutor;
+
+    public DofusAccountService() {
+        threadPoolExecutor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+    }
 
     @Contract(" -> new")
     private @NotNull ArrayList<DofusAccountDto> getTestUsers(){
@@ -55,13 +62,15 @@ public class DofusAccountService implements IDofusAccountService {
     @Override
     @WebMethod
     public List<DofusAccountDto> getUntreatedAccounts(Short limit) throws SOAPException {
-
+        List<DofusAccountDto> result = new ArrayList<>();
         try{
             if(dofusAccountRepository == null) {
                 throw new SOAPException("Database context is null!");
             }
 
-            return dofusAccountRepository.getAll().stream().map(DofusAccount::toDto).toList();
+            Future<List<DofusAccount>> accountss =  threadPoolExecutor.submit(() -> dofusAccountRepository.getAll());
+            result = accountss.get(10, TimeUnit.SECONDS).stream().map(DofusAccount::toDto).toList();
+            return result;
 
         }catch (Exception ex){
             throw new SOAPException("Database context injection Exception", ex);
