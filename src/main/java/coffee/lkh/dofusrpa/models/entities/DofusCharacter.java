@@ -3,26 +3,20 @@ package coffee.lkh.dofusrpa.models.entities;
 import coffee.lkh.dofusrpa.models.DofusCharacterClass;
 import coffee.lkh.dofusrpa.models.dto.DofusAccountDto;
 import coffee.lkh.dofusrpa.models.dto.DofusCharacterDto;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public record DofusCharacter(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
         Long id,
-        @Column(nullable = false)
         @NotNull String name,
-        @Column(nullable = false)
         @NotNull DofusCharacterClass character_class)
 {
-
+    public DofusCharacter(){
+        this(0L, "", DofusCharacterClass.UNDEFINED);
+    }
     @Contract("_ -> new")
     public static @NotNull DofusCharacter fromDto(@NotNull DofusCharacterDto dto) {
-        return new DofusCharacter(null, dto.name(), dto.character_class());
+        return new DofusCharacter(null, dto.getName(), dto.getCharacter_class());
     }
 
     public @NotNull DofusCharacterDto toDto() {

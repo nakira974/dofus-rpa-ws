@@ -6,61 +6,32 @@
     <display-name>DofusWS</display-name>
     <!-- CXF Servlet configuration -->
     <!-- Configure the JAX-WS runtime -->
+
+
+    <!-- Configure the CXF servlet -->
     <servlet>
-        <servlet-name>JAX-WS Servlet</servlet-name>
-        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <servlet-name>CXFServlet</servlet-name>
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
         <init-param>
-            <param-name>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</param-name>
-            <param-value>TRUE</param-value>
+            <param-name>hide-service-list-page</param-name>
+            <param-value>true</param-value>
         </init-param>
+        <init-param>
+            <param-name>config-location</param-name>
+            <param-value>/WEB-INF/cxf-servlet.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>JAX-WS Servlet</servlet-name>
+        <servlet-name>CXFServlet</servlet-name>
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
 
     <resource-env-ref>
-        <description>WebService Context</description>
-        <resource-env-ref-name>wsContext</resource-env-ref-name>
-        <resource-env-ref-type>jakarta.xml.ws.WebServiceContext</resource-env-ref-type>
-        <lookup-name>java:comp/env/jakarta.xml.ws.WebServiceContext</lookup-name>
+        <resource-env-ref-name>BeanManager</resource-env-ref-name>
+        <resource-env-ref-type>
+            jakarta.enterprise.inject.spi.BeanManager
+        </resource-env-ref-type>
     </resource-env-ref>
-
-    <!-- Configure the FileTransferService endpoint -->
-    <servlet>
-        <servlet-name>FileTransferService</servlet-name>
-        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>FileTransferService</servlet-name>
-        <url-pattern>/FileTransferService</url-pattern>
-    </servlet-mapping>
-
-
-    <!-- Configure SOAP port monitoring for Tomcat -->
-
-
-    <!-- Expose JMX beans for CXF endpoint management -->
-
-    <!--
-      <listener>
-        <listener-class>org.apache.catalina.mbeans.MBeanFactory</listener-class>
-    </listener>
-
-    <Valve className="org.apache.catalina.valves.JMXRemoteLifecycleListener" rmiRegistryPortPlatform="${jmx.rmi.registry.port}"
-           rmiServerPortPlatform="${jmx.rmi.server.port}" createRegistryPlatform="true" />
-
-    <listener>
-        <listener-class>org.apache.cxf.management.InstrumentationManager</listener-class>
-    </listener>
-
-    <context-param>
-        <param-name>org.apache.cxf.management.service.counter.name</param-name>
-        <param-value>FileTransferService</param-value>
-    </context-param>
-     -->
-
-
 </web-app>
