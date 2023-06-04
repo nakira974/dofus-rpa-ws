@@ -1,11 +1,11 @@
 package coffee.lkh.dofusrpa.webservices.implemantations;
 
+import coffee.lkh.dofusrpa.beans.CdiUtils;
 import coffee.lkh.dofusrpa.models.entities.DofusAccount;
 import coffee.lkh.dofusrpa.models.dto.DofusAccountDto;
 import coffee.lkh.dofusrpa.repositories.IDofusAccountRepository;
 import coffee.lkh.dofusrpa.repositories.implementations.DofusAccountRepository;
 import coffee.lkh.dofusrpa.webservices.IDofusAccountService;
-import jakarta.annotation.ManagedBean;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
@@ -23,10 +23,9 @@ import java.util.Optional;
 @WebService(endpointInterface = "coffee.lkh.dofusrpa.webservices.IDofusAccountService",
         serviceName = "DofusAccountService")
 public class DofusAccountService implements IDofusAccountService {
-
     public IDofusAccountRepository getDofusAccountRepository() {
         try{
-            return CDI.current().select(IDofusAccountRepository.class).get();
+            return CdiUtils.getBean(DofusAccountRepository.class);
         }catch (Exception ex){
             System.out.println(ex.getMessage());
             throw ex;

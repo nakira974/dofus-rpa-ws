@@ -7,21 +7,28 @@
     <!-- CXF Servlet configuration -->
     <!-- Configure the JAX-WS runtime -->
 
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>WEB-INF/beans.xml</param-value>
+    </context-param>
+
     <listener>
-        <listener-class>coffee.lkh.dofusrpa.beans.CdiServletContextListener</listener-class>
+        <listener-class>coffee.lkh.dofusrpa.</listener-class>
     </listener>
 
+    <!-- Configure the CXF servlet -->
     <servlet>
-        <servlet-name>JAX-WS Servlet</servlet-name>
-        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <servlet-name>CXFServlet</servlet-name>
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
         <init-param>
-            <param-name>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</param-name>
-            <param-value>TRUE</param-value>
+            <param-name>hide-service-list-page</param-name>
+            <param-value>true</param-value>
         </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>JAX-WS Servlet</servlet-name>
+        <servlet-name>CXFServlet</servlet-name>
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
 
@@ -33,13 +40,10 @@
         <lookup-name>java:comp/env/jakarta.xml.ws.WebServiceContext</lookup-name>
     </resource-env-ref>
 
-
     <resource-env-ref>
         <resource-env-ref-name>BeanManager</resource-env-ref-name>
         <resource-env-ref-type>
             jakarta.enterprise.inject.spi.BeanManager
         </resource-env-ref-type>
     </resource-env-ref>
-
-
 </web-app>

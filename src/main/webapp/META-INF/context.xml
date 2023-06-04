@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context>
+<Context path="">
     <Resource name="BeanManager"
               auth="Container"
               type="jakarta.enterprise.inject.spi.BeanManager"
-              factory="org.apache.webbeans.container.ManagerObjectFactory"/>
+              factory="org.apache.webbeans.container.ManagerObjectFactory"
+              description="CDI Bean Manager"/>
 </Context>
 
