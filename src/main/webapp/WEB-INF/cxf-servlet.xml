@@ -19,4 +19,8 @@
     <jaxws:endpoint id="dofusAccountService"
                     implementor="coffee.lkh.dofusrpa.webservices.implemantations.DofusAccountService"
                     address="/DofusAccountService"/>
+
+    <jaxws:endpoint id="fileTransferService"
+                    implementor="coffee.lkh.dofusrpa.webservices.implemantations.FileTransferService"
+                    address="/FileTransferService"/>
 </beans>
