@@ -1,6 +1,5 @@
 package coffee.lkh.dofusrpa.models.dto;
 
-
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;

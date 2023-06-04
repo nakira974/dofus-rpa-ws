@@ -7,13 +7,8 @@
     <!-- CXF Servlet configuration -->
     <!-- Configure the JAX-WS runtime -->
 
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>WEB-INF/beans.xml</param-value>
-    </context-param>
-
     <listener>
-        <listener-class>coffee.lkh.dofusrpa.</listener-class>
+        <listener-class>coffee.lkh.dofusrpa.beans.DofusEndpointListener</listener-class>
     </listener>
 
     <!-- Configure the CXF servlet -->
@@ -24,6 +19,10 @@
             <param-name>hide-service-list-page</param-name>
             <param-value>true</param-value>
         </init-param>
+        <init-param>
+            <param-name>config-location</param-name>
+            <param-value>/WEB-INF/cxf-servlet.xml</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
@@ -31,14 +30,6 @@
         <servlet-name>CXFServlet</servlet-name>
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
-
-    <!--Message security context-->
-    <resource-env-ref>
-        <description>WebService Context</description>
-        <resource-env-ref-name>wsContext</resource-env-ref-name>
-        <resource-env-ref-type>jakarta.xml.ws.WebServiceContext</resource-env-ref-type>
-        <lookup-name>java:comp/env/jakarta.xml.ws.WebServiceContext</lookup-name>
-    </resource-env-ref>
 
     <resource-env-ref>
         <resource-env-ref-name>BeanManager</resource-env-ref-name>

@@ -1,6 +1,7 @@
 package coffee.lkh.dofusrpa.beans;
 
 import coffee.lkh.dofusrpa.webservices.implemantations.DofusAccountService;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
@@ -11,14 +12,17 @@ public class DofusEndpointListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         // Register the CXF servlet with the servlet context
-        event.getServletContext().addServlet("CXFServlet", new CXFServlet()).addMapping("/services/*");
-
         // Register your endpoint beans with the CXF runtime
-        DofusAccountService dofusEndpointListener = new DofusAccountService();
-        JaxWsServerFactoryBean factory = new JaxWsServerFactoryBean();
-        factory.setAddress("/dofus");
-        factory.setServiceBean(dofusEndpointListener);
-        factory.create();
+        try{
+            DofusAccountService dofusEndpointListener = new DofusAccountService();
+            JaxWsServerFactoryBean factory = new JaxWsServerFactoryBean();
+            factory.setAddress("/dofus");
+            factory.setServiceBean(dofusEndpointListener);
+            factory.create();
+        }catch (Exception ex){
+            System.err.println("Can 't create endpoint!\n"+ex.getMessage());
+        }
+
     }
 
     @Override
