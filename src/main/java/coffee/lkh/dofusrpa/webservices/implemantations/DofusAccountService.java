@@ -62,14 +62,12 @@ public class DofusAccountService implements IDofusAccountService {
     @Override
     @WebMethod
     public List<DofusAccountDto> getUntreatedAccounts(Short limit) throws SOAPException {
-        List<DofusAccountDto> result = new ArrayList<>();
         try{
             if(dofusAccountRepository == null) {
                 throw new SOAPException("Database context is null!");
             }
 
-            result = dofusAccountRepository.getAll().get(10, TimeUnit.SECONDS).stream().map(DofusAccount::toDto).toList();
-            return result;
+            return new ArrayList<>(dofusAccountRepository.getAll().get(10, TimeUnit.SECONDS).stream().map(DofusAccount::toDto).toList());
 
         }catch (Exception ex){
             throw new SOAPException("Database context injection Exception", ex);
