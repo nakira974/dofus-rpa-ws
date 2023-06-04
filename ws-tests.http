@@ -7,3 +7,19 @@ Accept: text/xml
 GET {{baseUri}}/DofusAccountService
 Accept: text/xml
 
+### Get 100 dofus accounts
+POST {{baseUri}}/DofusAccountService HTTP/2
+Host: localhost:9091
+Content-Type: application/soap+xml
+Content-Length: 321
+
+<soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"
+                  xmlns:ws="http://webservices.dofusrpa.lkh.coffee/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ws:getUntreatedAccounts>
+         <limit>10</limit>
+      </ws:getUntreatedAccounts>
+   </soapenv:Body>
+</soapenv:Envelope>
+

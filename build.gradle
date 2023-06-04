@@ -31,10 +31,16 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     implementation 'org.jetbrains:annotations:24.0.0'
+
     //Concurrency and DI injection dependencies
-    compileOnly('jakarta.enterprise:jakarta.enterprise.cdi-api:3.0.0')
-    compileOnly('jakarta.enterprise.concurrent:jakarta.enterprise.concurrent-api:2.0.0')
-    compileOnly('jakarta.ejb:jakarta.ejb-api:4.0.0')
+    implementation("org.apache.tomcat:tomcat-jni:11.0.0-M6")
+    implementation 'jakarta.enterprise:jakarta.enterprise.cdi-api:3.0.0'
+
+    implementation("jakarta.inject:jakarta.inject-api:2.0.1")
+    implementation('jakarta.enterprise.concurrent:jakarta.enterprise.concurrent-api:2.0.0')
+    implementation('jakarta.ejb:jakarta.ejb-api:4.0.0')
+    implementation("org.apache.openwebbeans:openwebbeans-impl:2.0.27")
+
     //Json dependencies
     compileOnly('jakarta.json.bind:jakarta.json.bind-api:2.0.0')
     compileOnly('jakarta.json:jakarta.json-api:2.0.1')
@@ -48,7 +54,6 @@ dependencies {
     implementation("jakarta.jws:jakarta.jws-api:3.0.0")
     implementation('org.glassfish.jaxb:jaxb-runtime:3.0.2')
     //Jakarta and Sun XML Implementations
-    compileOnly("jakarta.enterprise:jakarta.enterprise.cdi-api:4.0.1")
     implementation("jakarta.activation:jakarta.activation-api:2.1.2")
     implementation("jakarta.xml.bind:jakarta.xml.bind-api:4.0.0")
     implementation("jakarta.xml.ws:jakarta.xml.ws-api:4.0.0")
@@ -71,15 +76,14 @@ dependencies {
     implementation('org.hibernate.validator:hibernate-validator:7.0.5.Final')
 
     //Apache Tomcat dependencies
-    compileOnly("org.apache.tomcat:tomcat-catalina:11.0.0-M5")
+    compileOnly("org.apache.tomcat:tomcat-catalina:11.0.0-M6")
 
     //Capture file reader dependencies
     implementation("jnetpcap:jnetpcap:1.5.r1457-1i")
 
-    //JPA Implementations
-    implementation("org.hibernate:hibernate-core-jakarta:5.6.15.Final")
+    //Postgresql Implementations
     implementation("org.postgresql:postgresql:42.6.0")
-    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    implementation("com.zaxxer:HikariCP:5.0.1")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
