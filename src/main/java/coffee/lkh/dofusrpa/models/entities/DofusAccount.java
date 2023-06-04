@@ -3,10 +3,6 @@ package coffee.lkh.dofusrpa.models.entities;
 
 import coffee.lkh.dofusrpa.models.dto.DofusAccountDto;
 import coffee.lkh.dofusrpa.models.dto.DofusCharacterDto;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.xml.bind.annotation.XmlElement;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -15,21 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public record DofusAccount(@Id
-                           @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+public record DofusAccount(
                            Long id,
-                           @Column(nullable = false)
                            @NotNull String email,
-                           @Column(nullable = false)
                            @NotNull String password,
 
-                           @Column(nullable = true)
                            Optional<List<Optional< DofusCharacter>>> characters
                            ) {
 
+    public DofusAccount(){
+        this(0L, "", "", Optional.of(new ArrayList<>()));
+    }
+
     @Contract("_ -> new")
     public static @NotNull DofusCharacter fromDto(@NotNull DofusCharacterDto dto) {
-        return new DofusCharacter(null, dto.name(), dto.character_class());
+        return new DofusCharacter(null, dto.getName(), dto.getCharacter_class());
     }
 
     public @NotNull DofusAccountDto toDto() {
