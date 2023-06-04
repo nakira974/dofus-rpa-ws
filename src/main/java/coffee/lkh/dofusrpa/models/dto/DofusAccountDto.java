@@ -1,37 +1,45 @@
 package coffee.lkh.dofusrpa.models.dto;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 import java.util.Optional;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "dofus_account")
-public record DofusAccountDto(@NotNull String email, @NotNull String hashed_passwd, Optional<List<Optional<DofusCharacterDto>>> characters) {
+public class DofusAccountDto {
+
+    private String email;
+    private String hashed_passwd;
+    private Optional<List<Optional<DofusCharacterDto>>> characters;
 
     public DofusAccountDto() {
         this("", "", Optional.empty());
     }
 
-    @XmlElement(name = "dofus_account_email")
-    @Override
-    public @NotNull String email() {
+    public DofusAccountDto(String email, String hashed_passwd, Optional<List<Optional<DofusCharacterDto>>> characters) {
+        this.email = email;
+        this.hashed_passwd = hashed_passwd;
+        this.characters = characters;
+    }
+
+    public String getEmail() {
         return email;
     }
 
-    @XmlElement(name = "dofus_account_hashed_passwd")
-    @Override
-    public @NotNull String hashed_passwd() {
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getHashed_passwd() {
         return hashed_passwd;
     }
 
-    @XmlElement(name = "dofus_account_characters")
-    @Override
-    public Optional<List<Optional<DofusCharacterDto>>> characters() {
+    public void setHashed_passwd(String hashed_passwd) {
+        this.hashed_passwd = hashed_passwd;
+    }
+
+    public Optional<List<Optional<DofusCharacterDto>>> getCharacters() {
         return characters;
+    }
+
+    public void setCharacters(Optional<List<Optional<DofusCharacterDto>>> characters) {
+        this.characters = characters;
     }
 }

@@ -1,14 +1,14 @@
 ### Get service FileTransferService WSDL
-GET {{baseUri}}/FileTransferService
+GET {{baseURI}}/FileTransferService
 Accept: text/xml
 
 
 ### Get service DofusAccountService WSDL
-GET {{baseUri}}/DofusAccountService
+GET {{baseURI}}/DofusAccountService
 Accept: text/xml
 
 ### Get 100 dofus accounts
-POST {{baseUri}}/DofusAccountService HTTP/2
+POST {{baseURI}}/DofusAccountService HTTP/2
 Host: localhost:9091
 Content-Type: application/soap+xml
 Content-Length: 321

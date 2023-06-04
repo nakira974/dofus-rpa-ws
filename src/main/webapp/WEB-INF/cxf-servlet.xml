@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:cxf="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="
             http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -10,7 +11,12 @@
 
     <context:annotation-config/>
 
-    <context:component-scan base-package="coffee.lkh.dofusrpa.beans"/>
+    <context:component-scan base-package="coffee.lkh.dofusrpa.webservices"/>
+    <context:component-scan base-package="coffee.lkh.dofusrpa.repositories"/>
+    <bean id="dofusAccountRepository"
+          class="coffee.lkh.dofusrpa.repositories.implementations.DofusAccountRepository"/>
 
-    <jaxws:endpoint id="dofusEndpoint" implementor="#dofusEndpoint" address="/dofus"/>
+    <jaxws:endpoint id="dofusAccountService"
+                    implementor="coffee.lkh.dofusrpa.webservices.implemantations.DofusAccountService"
+                    address="/DofusAccountService"/>
 </beans>

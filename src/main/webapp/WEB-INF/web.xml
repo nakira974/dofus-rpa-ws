@@ -7,9 +7,6 @@
     <!-- CXF Servlet configuration -->
     <!-- Configure the JAX-WS runtime -->
 
-    <listener>
-        <listener-class>coffee.lkh.dofusrpa.beans.DofusEndpointListener</listener-class>
-    </listener>
 
     <!-- Configure the CXF servlet -->
     <servlet>

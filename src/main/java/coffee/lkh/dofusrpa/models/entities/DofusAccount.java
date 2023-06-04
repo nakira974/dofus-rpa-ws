@@ -26,7 +26,7 @@ public record DofusAccount(
 
     @Contract("_ -> new")
     public static @NotNull DofusCharacter fromDto(@NotNull DofusCharacterDto dto) {
-        return new DofusCharacter(null, dto.name(), dto.character_class());
+        return new DofusCharacter(null, dto.getName(), dto.getCharacter_class());
     }
 
     public @NotNull DofusAccountDto toDto() {

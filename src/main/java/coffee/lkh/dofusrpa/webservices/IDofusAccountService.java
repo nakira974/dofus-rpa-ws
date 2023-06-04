@@ -13,5 +13,5 @@ import java.util.Optional;
 @WebService
 public interface IDofusAccountService {
     @WebMethod
-    public List<DofusAccountDto> getUntreatedAccounts(Optional<Short> limit) throws SOAPException;
+    public List<DofusAccountDto> getUntreatedAccounts(Short limit) throws SOAPException;
 }
