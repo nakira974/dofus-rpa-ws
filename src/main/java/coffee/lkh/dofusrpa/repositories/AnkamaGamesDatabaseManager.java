@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Properties;
 
-public class DatabaseUtil {
+public class AnkamaGamesDatabaseManager {
 
     private static HikariDataSource dataSource;
 
@@ -20,7 +20,7 @@ public class DatabaseUtil {
             Properties props = new Properties();
 
 
-            try (InputStream inputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("dofus.database.properties")) {
+            try (InputStream inputStream = AnkamaGamesDatabaseManager.class.getClassLoader().getResourceAsStream("dofus.database.properties")) {
                 if (inputStream != null) {
                     props.load(inputStream);
                 }
