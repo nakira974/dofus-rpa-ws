@@ -7,6 +7,8 @@ import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import jakarta.xml.bind.annotation.XmlMimeType;
 import jakarta.xml.soap.*;
+import jakarta.xml.ws.BindingType;
+import jakarta.xml.ws.soap.SOAPBinding;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;
@@ -16,6 +18,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @WebService(endpointInterface = "coffee.lkh.dofusrpa.webservices.IFileTransferService",
         serviceName = "FileTransferService")
+@BindingType(SOAPBinding.SOAP12HTTP_MTOM_BINDING)
 public class FileTransferService implements IFileTransferService {
 
     @WebMethod
