@@ -10,6 +10,6 @@ import java.util.concurrent.Future;
 public interface IDofusAccountRepository {
     public Future<List<DofusAccount>> getAll();
     public DofusAccount getById(Long id);
-    public void save(DofusAccount entity);
+    public Future<Boolean> save(DofusAccount entity);
     public void delete(DofusAccount entity);
 }

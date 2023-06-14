@@ -61,6 +61,7 @@ dependencies {
     implementation("jakarta.transaction:jakarta.transaction-api:2.0.1")
 
     // JAX-WS dependencies with CXF
+    implementation("org.apache.cxf:cxf-core:${cxfVersion}")
     implementation("org.apache.cxf:cxf-rt-frontend-jaxws:${cxfVersion}")
     implementation("org.apache.cxf:cxf-rt-transports-http:${cxfVersion}")
     implementation("org.apache.cxf:cxf-rt-transports-http-jetty:${cxfVersion}")

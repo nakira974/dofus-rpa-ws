@@ -1,26 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:jaxws="http://cxf.apache.org/jaxws"
-       xmlns:cxf="http://www.springframework.org/schema/p"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="
-            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:soap="http://cxf.apache.org/bindings/soap"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
             http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+            http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
     <context:annotation-config/>
 
     <context:component-scan base-package="coffee.lkh.dofusrpa.webservices"/>
     <context:component-scan base-package="coffee.lkh.dofusrpa.repositories"/>
+    <context:component-scan base-package="coffee.lkh.dofusrpa.beans"/>
+
+    <bean id="ankamaGamesDatabaseManager"
+          class="coffee.lkh.dofusrpa.repositories.AnkamaGamesDatabaseManager"/>
+
+
     <bean id="dofusAccountRepository"
-          class="coffee.lkh.dofusrpa.repositories.implementations.DofusAccountRepository"/>
+          class="coffee.lkh.dofusrpa.repositories.implementations.DofusAccountRepository">
+    </bean>
+
+    <bean id="authenticationInterceptor" class="org.apache.cxf.interceptor.security.JAASLoginInterceptor">
+        <property name="contextName" value="jaasContext"/>
+        <property name="roleClassifier" value="RolePrincipal"/>
+        <property name="roleClassifierType" value="classname"/>
+    </bean>
+
+    <!-- Configure CXF properties -->
+    <cxf:bus>
+        <!-- Disable schema validation to speed up initialization -->
+        <cxf:features>
+            <cxf:logging/>
+        </cxf:features>
+        <cxf:properties>
+            <entry key="org.apache.cxf.stax.allowInsecureParser" value="1"/>
+            <entry key="org.apache.cxf.logging.disable.id-to-string-conversion" value="true"/>
+        </cxf:properties>
+    </cxf:bus>
 
     <jaxws:endpoint id="dofusAccountService"
                     implementor="coffee.lkh.dofusrpa.webservices.implemantations.DofusAccountService"
-                    address="/DofusAccountService"/>
+                    address="/DofusAccountService">
+        <jaxws:binding>
+            <soap:soapBinding mtomEnabled="true" version="1.2"/>
+        </jaxws:binding>
+    </jaxws:endpoint>
 
     <jaxws:endpoint id="fileTransferService"
                     implementor="coffee.lkh.dofusrpa.webservices.implemantations.FileTransferService"
-                    address="/FileTransferService"/>
+                    address="/FileTransferService">
+        <jaxws:binding>
+            <soap:soapBinding mtomEnabled="true" version="1.2"/>
+        </jaxws:binding>
+    </jaxws:endpoint>
 </beans>

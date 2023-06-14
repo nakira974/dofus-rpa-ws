@@ -1,9 +1,16 @@
 package coffee.lkh.dofusrpa.models.dto;
 
+import coffee.lkh.dofusrpa.models.entities.DofusAccount;
+import coffee.lkh.dofusrpa.models.entities.DofusCharacter;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@XmlRootElement
+@XmlSeeAlso({DofusAccount.class, DofusCharacter.class})
 public class DofusAccountDto {
 
     private String email;
