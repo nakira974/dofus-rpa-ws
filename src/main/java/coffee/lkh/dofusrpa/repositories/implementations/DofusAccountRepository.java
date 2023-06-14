@@ -5,8 +5,10 @@ import coffee.lkh.dofusrpa.models.entities.DofusAccount;
 import coffee.lkh.dofusrpa.models.entities.DofusCharacter;
 import coffee.lkh.dofusrpa.repositories.AnkamaGamesDatabaseManager;
 import coffee.lkh.dofusrpa.repositories.IDofusAccountRepository;
-import com.zaxxer.hikari.HikariDataSource;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.ejb.Singleton;
+import jakarta.inject.Inject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,26 +19,36 @@ import java.util.concurrent.*;
 
 @Singleton
 public class DofusAccountRepository implements IDofusAccountRepository {
-    private final HikariDataSource dataSource;
-    private final ExecutorService threadPoolExecutor;
 
-    public DofusAccountRepository() {
-        threadPoolExecutor = Executors.newCachedThreadPool();
-        dataSource = AnkamaGamesDatabaseManager.getDataSource();
+    private final AnkamaGamesDatabaseManager ankamaGamesDatabaseManager;
+    private ExecutorService threadPoolExecutor ;
+
+    @Inject
+    public DofusAccountRepository(AnkamaGamesDatabaseManager ankamaGamesDatabaseManager) {
+        this.ankamaGamesDatabaseManager = ankamaGamesDatabaseManager;
+    }
+
+    @PostConstruct
+    public void init() {
+        threadPoolExecutor = Executors.newCachedThreadPool(); // or any other type of ExecutorService
+    }
+
+    @PreDestroy
+    public void stop() {
+        threadPoolExecutor.shutdown();
     }
 
     /**Fetch all {@link DofusAccount} objects along with their associated characters from the materialized view `user_characters`,*/
     public Future<List<DofusAccount>> getAll() {
-        final CompletableFuture<List<DofusAccount>> future = new CompletableFuture<>();
         final ThreadLocal<Connection> connectionHolder = new ThreadLocal<>();
 
-        threadPoolExecutor.submit(() -> {
+        Future<List<DofusAccount>> futureResult = threadPoolExecutor.submit(() -> {
             final List<DofusAccount> accounts = new ArrayList<>();
             try {
                 // Get connection from thread-local variable or create a new one if not present
                 Connection connection = connectionHolder.get();
                 if (connection == null) {
-                    connection = dataSource.getConnection();
+                    connection = ankamaGamesDatabaseManager.getDataSource().getConnection();
                     connectionHolder.set(connection);
                 }
 
@@ -67,7 +79,7 @@ public class DofusAccountRepository implements IDofusAccountRepository {
                         }
                     }
                 }
-                System.out.printf("\u001B[35m ALL ACCOUNTS AND THEIR CHARACTERS %d HAS BEEN SELECTED \u001B[0m%n" );
+                System.out.println("\u001B[35m ALL ACCOUNTS AND THEIR CHARACTERS HAS BEEN SELECTED \u001B[0m" );
             } catch (SQLException ex) {
                 System.err.println(ex.getMessage());
             } finally {
@@ -83,13 +95,11 @@ public class DofusAccountRepository implements IDofusAccountRepository {
                     }
                 }
 
-                future.complete(accounts);
             }
+            return accounts;
         });
 
-        threadPoolExecutor.shutdown();
-
-        return future;
+        return futureResult;
     }
 
     public DofusAccount getById(Long id) {
@@ -112,7 +122,7 @@ public class DofusAccountRepository implements IDofusAccountRepository {
                 // Get connection from thread-local variable or create a new one if not present
                 Connection connection = connectionHolder.get();
                 if (connection == null) {
-                    connection = dataSource.getConnection();
+                    connection = ankamaGamesDatabaseManager.getDataSource().getConnection();
                     connectionHolder.set(connection);
                 }
 
@@ -167,7 +177,7 @@ public class DofusAccountRepository implements IDofusAccountRepository {
             }
         });
 
-        threadPoolExecutor.shutdown();
+        threadPoolExecutor.shutdownNow();
 
         return future;
     }

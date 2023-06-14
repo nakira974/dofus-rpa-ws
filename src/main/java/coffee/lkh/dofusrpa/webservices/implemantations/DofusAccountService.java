@@ -6,13 +6,13 @@ import coffee.lkh.dofusrpa.models.dto.DofusAccountDto;
 import coffee.lkh.dofusrpa.models.entities.DofusAccount;
 import coffee.lkh.dofusrpa.models.entities.DofusCharacter;
 import coffee.lkh.dofusrpa.repositories.IDofusAccountRepository;
+import coffee.lkh.dofusrpa.repositories.implementations.DofusAccountRepository;
 import coffee.lkh.dofusrpa.webservices.IDofusAccountService;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import jakarta.xml.soap.*;
-import jakarta.xml.ws.BindingType;
-import jakarta.xml.ws.soap.SOAPBinding;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,42 +23,16 @@ import java.util.concurrent.*;
 
 @WebService(endpointInterface = "coffee.lkh.dofusrpa.webservices.IDofusAccountService",
         serviceName = "DofusAccountService")
-@BindingType(SOAPBinding.SOAP12HTTP_BINDING)
 public class DofusAccountService implements IDofusAccountService {
 
+
+    private final DofusAccountRepository dofusAccountRepository;
+
+
     @Inject
-    private IDofusAccountRepository dofusAccountRepository;
-
-    private final ThreadPoolExecutor threadPoolExecutor;
-
-    public DofusAccountService() {
-        threadPoolExecutor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+    public DofusAccountService(IDofusAccountRepository dofusAccountRepository) {
+        this.dofusAccountRepository = (DofusAccountRepository) dofusAccountRepository;
     }
-
-    @Contract(" -> new")
-    private @NotNull ArrayList<DofusAccountDto> getTestUsers(){
-
-        return new ArrayList<>() {{
-            add(
-                    new DofusAccountDto("maxime.loukhal@gmail.com", "54gff65g4f65",
-
-                                    new ArrayList<>() {{
-                                        add(new DofusCharacterDto("Ah_Mon_Gars", DofusCharacterClass.PANDAWA))
-                                        ;
-                                    }}
-                    ));
-        } {{
-            add(
-                    new DofusAccountDto("anthony.mereu77@gmail.com", "54gff65g4f65",
-
-                            new ArrayList<>() {{
-                                add(new DofusCharacterDto("Ah_Mon_Soin", DofusCharacterClass.ENIRIPSA))
-                                ;
-                            }}
-                    ));
-        }}};
-    }
-
 
     /**
      * @param limit
@@ -72,10 +46,15 @@ public class DofusAccountService implements IDofusAccountService {
                 throw new SOAPException("Database context is null!");
             }
 
-            return new ArrayList<>(dofusAccountRepository.getAll().get(10, TimeUnit.SECONDS).stream().map(DofusAccount::toDto).toList());
+            return dofusAccountRepository
+                    .getAll()
+                    .get(10, TimeUnit.SECONDS)
+                    .stream()
+                    .map(DofusAccount::toDto)
+                    .toList();
 
         }catch (Exception ex){
-            throw new SOAPException("Database context injection Exception", ex);
+            throw new SOAPException(ex.getMessage(), ex);
         }
     }
 
@@ -107,4 +86,5 @@ public class DofusAccountService implements IDofusAccountService {
             throw new SOAPException("Database context injection Exception", ex);
         }
     }
+
 }

@@ -9,7 +9,7 @@ import jakarta.xml.ws.BindingType;
 import jakarta.xml.ws.soap.SOAPBinding;
 
 @WebService
-@BindingType(SOAPBinding.SOAP12HTTP_BINDING)
+@BindingType(SOAPBinding.SOAP11HTTP_MTOM_BINDING)
 public interface IFileTransferService {
     @WebMethod
     /* Advanced usecase of passing an Interface in.  JAX-WS/JAXB does not

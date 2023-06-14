@@ -2,6 +2,7 @@ package coffee.lkh.dofusrpa.webservices;
 
 import coffee.lkh.dofusrpa.models.dto.DofusAccountDto;
 import coffee.lkh.dofusrpa.models.dto.DofusCharacterDto;
+import jakarta.ejb.Remote;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebService;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @WebService
 @BindingType(SOAPBinding.SOAP12HTTP_BINDING)
+@Remote
 public interface IDofusAccountService {
     @WebMethod
     public List<DofusAccountDto> getAllAccounts(@WebParam(name = "limit") Integer limit) throws SOAPException;

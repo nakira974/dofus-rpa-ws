@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @WebService(endpointInterface = "coffee.lkh.dofusrpa.webservices.IFileTransferService",
         serviceName = "FileTransferService")
-@BindingType(SOAPBinding.SOAP12HTTP_BINDING)
+@BindingType(SOAPBinding.SOAP12HTTP_MTOM_BINDING)
 public class FileTransferService implements IFileTransferService {
 
     @WebMethod
