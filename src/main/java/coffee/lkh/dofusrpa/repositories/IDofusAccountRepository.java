@@ -8,8 +8,8 @@ import java.util.concurrent.Future;
 
 @Local
 public interface IDofusAccountRepository {
-    public List<DofusAccount> getAll();
+    public Future<List<DofusAccount>> getAll();
     public DofusAccount getById(Long id);
-    public void save(DofusAccount entity);
+    public Future<Boolean> save(DofusAccount entity);
     public void delete(DofusAccount entity);
 }

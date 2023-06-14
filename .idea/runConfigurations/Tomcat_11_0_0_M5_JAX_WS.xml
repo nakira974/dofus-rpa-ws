@@ -15,6 +15,7 @@
       <option name="DEPLOY_TOMCAT_APPS" value="true" />
       <option name="HTTP_PORT" value="9090" />
       <option name="HTTPS_PORT" value="9091" />
+      <option name="PRESERVE_SESSIONS" value="true" />
     </server-settings>
     <log_file alias="Tomcat Manager Log" path="%IDEA_RUN:CATALINA_BASE%/logs/manager.*" />
     <log_file alias="Tomcat Localhost Access Log" path="%IDEA_RUN:CATALINA_BASE%/logs/localhost_access_log.*" />
