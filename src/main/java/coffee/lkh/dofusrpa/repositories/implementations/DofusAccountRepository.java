@@ -177,8 +177,6 @@ public class DofusAccountRepository implements IDofusAccountRepository {
             }
         });
 
-        threadPoolExecutor.shutdownNow();
-
         return future;
     }
 
